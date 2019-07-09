@@ -18,20 +18,14 @@ function read-travis-yml {
 }
 
 function get-github-description {
-    url="https://api.github.com/repos/${GITHUB_REPO}"
-    echo ${url}
-
-    curl -fLs --retry 5 --url ${url} \
+    curl -fLs --retry 5 --url ${githubApiRepoDetails} \
     | grep "description" \
     | cut -d ":" -f 2 \
     | cut -d '"' -f 2
 }
 
 function get-github-latest {
-    url="https://api.github.com/repos/${GITHUB_REPO}/releases/latest"
-    echo ${url}
-
-    curl -fLs --retry 5 --url ${url} \
+    curl -fLs --retry 5 --url ${githubApiLatestRelease} \
     | grep "tag_name" \
     | cut -d ":" -f 2 \
     | cut -d '"' -f 2
@@ -59,6 +53,12 @@ export DESCRIPTION=${DESCRIPTION:=$( get-github-description )}
 # other build/version related vars
 export BUILD_DATE=$( date -u +"%Y-%m-%dT%H:%M:%SZ" )
 export GIT_REF=$( git rev-parse --short HEAD )
+
+githubApiRepoDetails="https://api.github.com/repos/${GITHUB_REPO}"
+githubApiLatestRelease="https://api.github.com/repos/${GITHUB_REPO}/releases/latest"
+
+echo ${githubApiRepoDetails}
+echo ${githubApiLatestRelease}
 
 isVersionRelease=false
 isLatestRelease=false
@@ -99,6 +99,7 @@ docker-compose \
     --file "${cwd}/docker-compose.yml" \
     --project-name travis \
     --project-directory "${cwd}" \
+    --no-cache
     build travis
 
 if ${isVersionRelease}
