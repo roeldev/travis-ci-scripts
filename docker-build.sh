@@ -73,7 +73,10 @@ then
     IMAGE_TAG=${TRAVIS_TAG}
     isVersionRelease=true
 
-    if [[ "${TRAVIS_TAG}" == "$( get-github-latest )" ]]
+    latestVersion="$( get-github-latest )"
+    echo Latest version from GitHub: ${latestVersion}
+
+    if [[ "${TRAVIS_TAG}" == "${latestVersion}" ]]
     then
         isLatestRelease=true
     fi
