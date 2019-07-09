@@ -18,18 +18,20 @@ function read-travis-yml {
 }
 
 function get-github-description {
-    curl -fLs \
-        --retry 5 \
-        --url https://api.github.com/repos/${GITHUB_REPO} \
+    url="https://api.github.com/repos/${GITHUB_REPO}"
+    echo ${url}
+
+    curl -fLs --retry 5 --url ${url} \
     | grep "description" \
     | cut -d ":" -f 2 \
     | cut -d '"' -f 2
 }
 
 function get-github-latest {
-    curl -fLs \
-        --retry 5 \
-        --url https://api.github.com/repos/${GITHUB_REPO}/releases/latest \
+    url="https://api.github.com/repos/${GITHUB_REPO}/releases/latest"
+    echo ${url}
+
+    curl -fLs --retry 5 --url ${url} \
     | grep "tag_name" \
     | cut -d ":" -f 2 \
     | cut -d '"' -f 2
