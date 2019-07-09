@@ -101,7 +101,6 @@ docker-compose \
     --file "${cwd}/docker-compose.yml" \
     --project-name travis \
     --project-directory "${cwd}" \
-    --no-cache
     build travis
 
 if ${isVersionRelease}
