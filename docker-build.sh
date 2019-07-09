@@ -17,15 +17,24 @@ function read-travis-yml {
     | cut -d "=" -f 2
 }
 
+function request {
+    curl \
+        --location \
+        --retry 10 \
+        --retry-delay 5 \
+        --retry-max-time 120
+        $1
+}
+
 function get-github-description {
-    curl -fLs --retry 5 --url ${githubApiRepoDetails} \
+    request ${githubApiRepoDetails} \
     | grep "description" \
     | cut -d ":" -f 2 \
     | cut -d '"' -f 2
 }
 
 function get-github-latest {
-    curl -fLs --retry 5 --url ${githubApiLatestRelease} \
+    request ${githubApiLatestRelease} \
     | grep "tag_name" \
     | cut -d ":" -f 2 \
     | cut -d '"' -f 2
