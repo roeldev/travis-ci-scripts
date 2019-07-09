@@ -48,17 +48,19 @@ function add-tag {
 export MAINTAINER=${MAINTAINER:=$( read-travis-yml "MAINTAINER" )}
 export GITHUB_REPO=${GITHUB_REPO:=$( read-travis-yml "GITHUB_REPO" )}
 export DOCKER_REPO=${DOCKER_REPO:=$( read-travis-yml "DOCKER_REPO" )}
-# get description from github when not set
-export DESCRIPTION=${DESCRIPTION:=$( get-github-description )}
-# other build/version related vars
-export BUILD_DATE=$( date -u +"%Y-%m-%dT%H:%M:%SZ" )
-export GIT_REF=$( git rev-parse --short HEAD )
 
 githubApiRepoDetails="https://api.github.com/repos/${GITHUB_REPO}"
 githubApiLatestRelease="https://api.github.com/repos/${GITHUB_REPO}/releases/latest"
 
 echo ${githubApiRepoDetails}
 echo ${githubApiLatestRelease}
+
+# get description from github when not set
+export DESCRIPTION=${DESCRIPTION:=$( get-github-description )}
+
+# other build/version related vars
+export BUILD_DATE=$( date -u +"%Y-%m-%dT%H:%M:%SZ" )
+export GIT_REF=$( git rev-parse --short HEAD )
 
 isVersionRelease=false
 isLatestRelease=false
