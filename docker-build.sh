@@ -19,7 +19,9 @@ function read-travis-yml {
 
 function request {
     curl \
+        --fail \
         --location \
+        --silent \
         --retry 10 \
         --retry-delay 5 \
         --retry-max-time 120 \
