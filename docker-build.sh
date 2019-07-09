@@ -22,8 +22,8 @@ function request {
         --fail \
         --location \
         --silent \
+        --max-time 10 \
         --retry 10 \
-        --retry-delay 5 \
         --retry-max-time 120 \
         $1
 }
