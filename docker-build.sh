@@ -22,7 +22,7 @@ function request {
         --location \
         --retry 10 \
         --retry-delay 5 \
-        --retry-max-time 120
+        --retry-max-time 120 \
         $1
 }
 
