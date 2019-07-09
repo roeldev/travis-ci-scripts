@@ -1,0 +1,14 @@
+version: '3.4'
+
+services:
+  travis:
+    build:
+      labels:
+        - "maintainer=${MAINTAINER:?MAINTAINER}"
+        - "description=${DESCRIPTION:?DESCRIPTION}"
+        - "org.label-schema.name=${DOCKER_REPO:?DOCKER_REPO}"
+        - "org.label-schema.version=${IMAGE_TAG:?IMAGE_TAG}"
+        - "org.label-schema.build-date=${BUILD_DATE:?BUILD_DATE}"
+        - "org.label-schema.vcs-ref=${GIT_REF:?GIT_REF}"
+        - "org.label-schema.vcs-url=https://github.com/${GITHUB_REPO:?GITHUB_REPO}"
+        - "org.label-schema.schema-version=1.0"
