@@ -17,8 +17,9 @@ function read-travis-yml {
     | cut -d "=" -f 2
 }
 
-function request {
+function github-api-request {
     curl \
+        --header "Authorization: token ${GITHUB_API_TOKEN}" \
         --fail \
         --location \
         --silent \
@@ -29,14 +30,14 @@ function request {
 }
 
 function get-github-description {
-    request ${githubApiRepoDetails} \
+    github-api-request ${githubApiRepoDetails} \
     | grep "description" \
     | cut -d ":" -f 2 \
     | cut -d '"' -f 2
 }
 
-function get-github-latest {
-    request ${githubApiLatestRelease} \
+function get-github-latest-release {
+    github-api-request ${githubApiLatestRelease} \
     | grep "tag_name" \
     | cut -d ":" -f 2 \
     | cut -d '"' -f 2
@@ -84,7 +85,7 @@ then
     IMAGE_TAG=${TRAVIS_TAG}
     isVersionRelease=true
 
-    latestVersion="$( get-github-latest )"
+    latestVersion="$( get-github-latest-release )"
     echo Latest version from GitHub: ${latestVersion}
 
     if [[ "${TRAVIS_TAG}" == "${latestVersion}" ]]
