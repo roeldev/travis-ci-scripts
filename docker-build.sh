@@ -115,7 +115,6 @@ docker-compose \
     --file "${dir}/docker-compose-base.yml" \
     --file "${cwd}/docker-compose.yml" \
     --project-directory "${cwd}" \
-    --no-cache \
     build travis
 
 if ${isVersionRelease}
