@@ -98,7 +98,7 @@ fi
 imageNameTemplate="$( cat "${cwd}/docker-compose.yml" | grep "image:" -m 1 | cut -d ':' -f 2- )"
 release="$( eval "echo -e \"${imageNameTemplate}\"" )"
 
-export RELEASE_TAG="${release:($( echo "${DOCKER_REPO}" | awk '{print length}' ) + 1)}"
+export RELEASE_TAG="$( echo ${release} | cut -d ':' -f 2 )"
 
 echo Building Docker image ${release}...
 echo
