@@ -77,7 +77,7 @@ export GIT_REF=$( git rev-parse --short HEAD )
 isVersionRelease=false
 isLatestRelease=false
 
-# set image tag according to branch/tag
+# set tag according to branch/tag
 export IMAGE_TAG=experimental
 # new version release
 if [[ "${TRAVIS_BRANCH}" == "${TRAVIS_TAG}" ]]
@@ -97,6 +97,7 @@ fi
 # use the first "image:" property as template for the image names
 imageNameTemplate=$( cat "${cwd}/docker-compose.yml" | grep "image:" -m 1 | cut -d ':' -f 2- )
 release=$( eval "echo -e \"$imageNameTemplate\"" )
+RELEASE_TAG=${release:$( echo ${DOCKER_REPO} | awk '{print length}' )+1}
 
 echo Building Docker image ${release}...
 echo
@@ -106,8 +107,8 @@ echo "GitHub repo:      ${GITHUB_REPO}"
 echo "Docker Hub repo:  ${DOCKER_REPO}"
 echo "Build date:       ${BUILD_DATE}"
 echo "Git commit ref:   ${GIT_REF}"
-echo "Image tag:        ${IMAGE_TAG}"
-echo "Tag as version:   ${isVersionRelease}"
+echo "Image tag:        ${RELEASE_TAG}"
+echo "Tag as release:   ${isVersionRelease}"
 echo "Tag as latest:    ${isLatestRelease}"
 echo
 
