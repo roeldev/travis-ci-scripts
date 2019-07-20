@@ -82,11 +82,11 @@ export IMAGE_TAG=experimental
 # new version release
 if [[ "${TRAVIS_BRANCH}" == "${TRAVIS_TAG}" ]]
 then
-    IMAGE_TAG=${TRAVIS_TAG}
+    IMAGE_TAG="${TRAVIS_TAG}"
     isVersionRelease=true
 
     latestVersion="$( get-github-latest-release )"
-    echo Latest version from GitHub: ${latestVersion}
+    echo "Latest version from GitHub: ${latestVersion}"
 
     if [[ "${TRAVIS_TAG}" == "${latestVersion}" ]]
     then
@@ -95,10 +95,10 @@ then
 fi
 
 # use the first "image:" property as template for the image names
-imageNameTemplate=$( cat "${cwd}/docker-compose.yml" | grep "image:" -m 1 | cut -d ':' -f 2- )
-release=$( eval "echo -e \"$imageNameTemplate\"" )
+imageNameTemplate="$( cat "${cwd}/docker-compose.yml" | grep "image:" -m 1 | cut -d ':' -f 2- )"
+release="$( eval "echo -e \"${imageNameTemplate}\"" )"
 
-export RELEASE_TAG=${release:($( echo ${DOCKER_REPO} | awk '{print length}' ) + 1)}
+export RELEASE_TAG="${release:($( echo "${DOCKER_REPO}" | awk '{print length}' ) + 1)}"
 
 echo Building Docker image ${release}...
 echo
